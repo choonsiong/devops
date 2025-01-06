@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb:latest
+    volumes:
+      - vol-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: password
+    restart: always
+  
+  wordpress:
+    image: wordpress:latest
+    volumes:
+      - vol-www:/var/www/html/wp-content
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_NAME: wp
+      WORDPRESS_DB_PASSWORD: password
+    restart: always # restart the container automatically after a reboot
+
+volumes:
+  vol-db:
+  vol-www:
+
+  # Run docker compose up -d (-d is running as a background process)
