@@ -1,0 +1,32 @@
+# File /etc/systemd/system/docker-mysql.service
+[Unit]
+Description=starts MySQL server as Docker container
+After=docker.service
+Requires=docker.service
+
+[Service]
+# The systemd memorizes the currently activated state.
+RemainAfterExit==true
+# Ensure the container named 'my-mysql-db' gets stopped and deleted and
+# that the latest version of the MySQL image is downloaded.
+# The - sign means that when these commands are executed, an error will
+# simply be ignored.
+ExecStartPre=-/usr/bin/docker stop my-mysql-db
+ExecStartPre=-/usr/bin/docker rm my-mysql-db
+ExecStartPre=-/usr/bin/docker pull mysql
+# Starts the container using volume directory and port given.
+ExecStart=/usr/bin/docker run -d --restart unless-stopped -v /home/foobar/docker-mysql-volume:/var/lib/mysql -p 13306:3306 --name my-mysql-db mysql
+# What need to be done to stop the service.
+ExecStop=/usr/bin/docker stop my-mysql-db
+
+[Install]
+WantedBy=multi-user.target
+
+# Run systemctl deamon-reload to take the new service file into account,
+# further modification to the file also required running deamon-reload again.
+# Now you can try below commands
+# systemctl start docker-mysql
+# systemctl status docker-mysql
+# systemctl stop docker-mysql
+# systemctl enable --now docker-mysql
+# systemctl disable --now docker-mysql
