@@ -1,0 +1,11 @@
+# samle.yml file
+data:
+  list:
+    - item 1
+    - item 2
+  key1: >
+    This text is assigned to the 
+    'data.key1' key.
+  key2: |
+    code line 1
+    code line 2
