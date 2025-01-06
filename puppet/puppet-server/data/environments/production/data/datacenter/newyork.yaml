@@ -1,0 +1,8 @@
+motd::content: |
+  Welcome to New York
+
+  Host name = %{facts.networking.fqdn}
+  
+  This server is running in %{facts.datacenter}
+  
+  This server is managed by foobar@example.com

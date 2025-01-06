@@ -1,0 +1,16 @@
+greeting: Hello and welcome to Hiera
+datacenter: New York
+
+motd::content: |
+  Welcome
+  
+  This server is managed by foobar@example.com
+
+people:
+  - foo
+  - alice
+  - bob
+  - jane
+  - john
+
+sysadmins: "%{ alias('people') }"
