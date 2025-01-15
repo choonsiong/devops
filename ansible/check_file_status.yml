@@ -1,0 +1,13 @@
+---
+- name: Check file status and attributes
+  hosts: localhost
+
+  tasks:
+  - name: Check file status and attributes
+    stat:
+      path: /tmp/foo.txt
+    register: fs # register or output to fs container (variable)
+
+  - name: Show fs result
+    debug:
+      msg: File attributes {{ fs }}
