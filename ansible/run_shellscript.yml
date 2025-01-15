@@ -1,0 +1,7 @@
+---
+- name: Run remote shellscript
+  hosts: all
+
+  tasks:
+  - name: Run shellscript
+    shell: "/tmp/hello.sh"
