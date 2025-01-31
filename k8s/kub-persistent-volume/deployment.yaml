@@ -20,9 +20,5 @@ spec:
               name: kube-volume
       volumes:
         - name: kube-volume
-          # Host (node) specific
-          hostPath:
-            path: /data
-            type: DirectoryOrCreate
-          # Port specific
-          #emptyDir: {}        
+          persistentVolumeClaim:
+            claimName: host-pvc
