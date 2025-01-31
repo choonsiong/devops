@@ -1,0 +1,14 @@
+---
+- name: Install apache
+  hosts: localhost
+  tasks:
+  - name: Install apache on ubuntu
+    apt-get:
+      name: apache2
+      state: present
+    when: ansible_os_family == "Ubuntu" # ansible built-in variable
+  - name: Install apache on centos
+    yum:
+      name: httpd
+      state: present
+    when: ansible_os_family == "RedHat"

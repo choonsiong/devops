@@ -1,0 +1,6 @@
+---
+- name: Ping localhost playbook
+  hosts: localhost
+  tasks:
+  - name: "Test connectivity"
+    ping: 

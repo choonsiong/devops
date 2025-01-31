@@ -1,0 +1,7 @@
+---
+- name: Install httpd, named and chrony
+  hosts: all
+  roles:
+  - apache
+  - ntpd
+  - named

@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+  servicename1:
+    image: reponame/imagename:tag
+  servicename2:
+    build: directory # A path to a directory where the Dockerfile is located instead of an image, docker compose will creates the image and uses it as a base
+  servicename3:
+    build: . # The Dockerfile is in the same directory
+  servicename4:
+    networks:
+      - my-net
+    ports:
+      - "8080:80"
+      - "8443:443"
+  servicename5:
+    expose: # Only visible within the network created by docker compose / docker stack deploy
+      - "7500"
+      - "7501"
+    volumes:
+      - /data/db:/var/lib/mysql # /data/db must exists before docker compose run
+      - ../data/db:/var/lib/mysql # Using relative path (relative to the docker-compose.yml file)
+      - /data/db:/var/lib/mysql:z # Fedora/RHEL
+  nginx:
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - webdata:/var/www/html
+  servicename6:
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_NAME: wordpressdb
+  servicename8:
+    environment:
+      - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_NAME=wordpressdb
+  servicename9:
+    environment:
+      env_file: filename
+  servicename10:
+    entrypoint: ["my-script.sh"]
+    command: ["php", "-a"]
+  servicename11:
+    command:
+      - "php"
+      - "-a"
+  servicename12:
+    restart: always # on-failure, unless-stopped
+
+
+networks:
+  my-net:
+    external:
+      name: host
+
+volumes:
+  webdata: # named volume

@@ -1,0 +1,19 @@
+---
+- name: Download tomcat
+  hosts: localhost
+
+  tasks:
+  - name: Create a directory /tmp/tomcat
+    file:
+      path: /tmp/tomcat
+      state: directory
+      mode: 0755
+      owner: root
+      group: root
+  - name: Download tomcat
+    get_url:
+      url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.98/bin/apache-tomcat-9.0.98.tar.gz
+      dest: /tmp/tomcat
+      mode: 0755
+      owner: foobar
+      group: foobar

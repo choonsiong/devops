@@ -1,0 +1,11 @@
+---
+- name: Install multiple packages
+  hosts: localhost
+  vars:
+    packages: [ftp, telnet, htop]
+  tasks:
+  - name: Install package
+    yum:
+      name: "{{ items }}"
+      state: present
+    with_items: "{{ packages }}"

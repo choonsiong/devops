@@ -1,0 +1,36 @@
+---
+- name: Create and remove directory/file
+  hosts: all
+
+  tasks:
+  - name: Create directory /tmp/foo
+    file:
+      path: /tmp/foo
+      owner: foobar
+      group: foobar
+      mode: 0770
+      state: directory
+
+  - name: Create a file in /tmp/foo
+    file:
+      path: /tmp/foo/bar
+      state: touch
+  
+  - name: State the new file
+    stat:
+      path: /tmp/foo/bar
+    register: jf
+    
+  - name: Show file status
+    debug:
+      msg: File status and attributes {{ jf }}
+
+  - name: Remove file
+    file:
+      path: /tmp/foo/bar
+      state: absent
+
+  - name: Remove directory
+    file:
+      path: /tmp/foo
+      state: absent

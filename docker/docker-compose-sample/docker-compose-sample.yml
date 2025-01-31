@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  servicename1:
+    keyword1: setting1
+    keyword2: setting2
+  servicename2:
+    keyword1: setting1
+    keyword2: setting2

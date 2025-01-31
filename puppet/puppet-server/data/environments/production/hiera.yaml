@@ -1,0 +1,19 @@
+---
+version: 5
+
+defaults:
+  data_hash: yaml_data
+  datadir: data
+
+# An array
+hierarchy:
+  - name: "Host specific configuration"
+    paths:
+    #- "nodes/${facts.networking.fqdn}.yaml"
+    - "nodes/%{facts.networking.fqdn}.yaml"
+  - name: "Operating system defaults"
+    paths:
+    - "os/%{facts.os.name}.yaml"
+  - name: "Global Configuration"
+    paths:
+    - "common.yaml"

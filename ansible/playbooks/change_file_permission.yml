@@ -1,0 +1,9 @@
+---
+- name: Change remote client file permission
+  hosts: all
+
+  tasks:
+  - name: Change file permission
+    file:
+      path: /tmp/foo.txt
+      mode: a+w

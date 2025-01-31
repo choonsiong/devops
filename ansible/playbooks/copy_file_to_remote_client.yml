@@ -1,0 +1,13 @@
+---
+- name: Copy file to remote clients
+  hosts: all
+
+  tasks:
+  - name: Copy file
+    become: true # transfer as current user
+    copy: 
+      src: /tmp/foo.txt
+      dest: /tmp
+      owner: foobar
+      group: foobar
+      mode: 0644

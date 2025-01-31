@@ -1,0 +1,13 @@
+---
+- name: Kill process
+  hosts: 192.168.0.120
+
+  tasks:
+  - name: Get running processes from remote host
+    ignore_errors: true
+    shell: "ps -few | grep top | grep -v grep | awk '{print $2}'"
+    register: processid
+  - name: Kill running process
+    ignore_errors: true
+    shell: "kill {{ item }}"
+    with_items: "{{ processid.stdout_lines }}"

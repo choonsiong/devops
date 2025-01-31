@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+  db:
+    image: mariadb:latest
+    secrets:
+      - mysql_root
+    volumes:
+      - vol-db:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mysql_root
+      MYSQL_DATABASE: wp2
+      MYSQL_USER: wpuser2
+    restart: always
+  
+  wordpress:
+    image: wordpress:latest
+    secrets:
+      - mysql_root
+    volumes:
+      - vol-www:/var/www/html/wp-content
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wpuser2
+      WORDPRESS_DB_NAME: wp2
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/mysql_root
+    restart: always
+
+volumes:
+  vol-db:
+  vol-www:
+
+secrets:
+  mysql_root:
+    file: ./mysql-root-pw.txt

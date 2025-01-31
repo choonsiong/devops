@@ -1,0 +1,10 @@
+---
+- name: Full install of httpd
+  hosts: 192.168.0.120
+  roles:
+  - httpd-fullinstall
+
+- name: Basic install of httpd
+  hosts: 192.168.0.127
+  roles:
+  - httpd-basicinstall

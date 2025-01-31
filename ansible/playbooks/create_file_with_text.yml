@@ -1,0 +1,13 @@
+---
+- name: Creat file and add text
+  hosts: localhost
+
+  tasks:
+  - name: Create a file
+    file:
+      path: /tmp/foo.txt
+      state: touch
+  - name: Add text to the file
+    blockinfile:
+      path: /tmp/foo.txt
+      block: Hello World

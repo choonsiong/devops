@@ -1,0 +1,5 @@
+---
+- name: Install named (bind)
+  yum:
+    name: bind
+    state: present

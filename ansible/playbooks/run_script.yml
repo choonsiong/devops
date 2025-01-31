@@ -1,0 +1,8 @@
+---
+- name: Run script
+  hosts: localhost
+  tasks:
+  - name: Run date command
+    command: date
+  - name: Run script
+    script: /tmp/test.sh

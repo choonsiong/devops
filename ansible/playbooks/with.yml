@@ -1,0 +1,40 @@
+---
+- name: Crease users
+  hosts: localhost
+  tasks:
+  - user: name='{{ item }}' state=present
+    with_items:
+      - bob
+      - jane
+      - jenny
+      - wendy
+      - jason
+      - andy
+
+- name: Get from multiple urls
+  hosts: localhost
+  tasks:
+  - debug: var=item
+    with_url:
+      - "https://site1.com/get-servers"
+      - "https://site2.com/get-servers"
+      - "https://site3.com/get-servers"
+
+- name: View config files
+  hosts: localhost
+  tasks:
+  - debug: var=item
+    with_file:
+      - '/etc/hosts'
+      - '/etc/resolve.conf'
+      - '/etc/ntp.conf'
+
+- name: Check multiple mongodbs
+  hosts: localhost
+  tasks:
+  - debug: msg="DB={{ item.database }} PID={{ item.pid }}"
+    with_mongodb:
+    - database: dev
+      connection_string: "mongodb://dev.mongo/"
+    - database: prod
+      connection_string: "mongodb://prod.mongo/"

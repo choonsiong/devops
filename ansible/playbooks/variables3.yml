@@ -1,0 +1,10 @@
+---
+- name: Create file
+  hosts: localhost
+  vars:
+    file_name: foo
+  tasks:
+  - name: Create file
+    file:
+      state: touch
+      path: /tmp/"{{ file_name }}".txt

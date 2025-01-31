@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  mongodb2:
+    image: 'mongo'
+    container_name: multi-mongodb
+    volumes: 
+      - mongodb2-data:/data/db
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: udemy
+    #   MONGO_INITDB_ROOT_PASSWORD: password
+    env_file:
+      - ./env/mongo.env
+
+  backend:
+    build: ./backend
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile
+    #   args:
+    #     some-arg: 1
+    ports:
+      - '80:80'
+    volumes:
+      - node-backend-logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    container_name: multi-backend
+    environment:
+      - MONGODB_USERNAME=udemy
+      - MONGODB_PASSWORD=password
+    # env_file:
+    #   - ./env/backend.env
+    depends_on:
+      - mongodb2
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    container_name: multi-frontend
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+volumes:
+  mongodb2-data:
+  node-backend-logs:

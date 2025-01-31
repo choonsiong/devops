@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-volume-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kube-volume-app
+  template:
+    metadata:
+      labels:
+        app: kube-volume-app
+    spec:
+      containers:
+        - name: kube-volume-container
+          image: choonsiong/kube-volume-app:2
+          volumeMounts:
+            - mountPath: /app/story
+              name: kube-volume
+      volumes:
+        - name: kube-volume
+          # Host (node) specific
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate
+          # Port specific
+          #emptyDir: {}        

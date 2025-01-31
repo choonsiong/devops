@@ -1,0 +1,14 @@
+---
+- name: Copy file to remote hosts
+  hosts: all
+  vars:
+    srcfile: /tmp/foo.txt
+  tasks:
+  - name: Copy file
+    become: true
+    copy:
+      src: "{{ srcfile }}"
+      dest: /tmp
+      owner: foobar
+      group: foobar
+      mode: 0644
