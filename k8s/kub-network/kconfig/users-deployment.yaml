@@ -14,4 +14,9 @@ spec:
     spec:
       containers:
         - name: users-container
-          image: choonsiong/kube-network-user:1
+          image: choonsiong/kube-network-user:2
+          env:
+            - name: AUTH_ADDRESS
+              value: localhost
+        - name: auth-container
+          image: choonsiong/kube-network-auth:1
