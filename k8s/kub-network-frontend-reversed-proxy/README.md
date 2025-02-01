@@ -57,3 +57,5 @@ tasks-service      LoadBalancer   10.111.115.103   localhost     8000:30381/TCP 
 users-service      LoadBalancer   10.99.225.254    localhost     8080:31412/TCP   41s
 $
 ```
+
+![img](image.png)
