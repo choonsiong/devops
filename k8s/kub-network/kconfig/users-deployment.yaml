@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
         - name: users-container
-          image: choonsiong/kube-network-user:2
+          image: choonsiong/kube-network-user:latest
           env:
+            # To use the environment variable AUTH_SERVICE_SERVICE_HOST, remember to start services first,
+            # before deployment: https://www.udemy.com/course/docker-kubernetes-the-practical-guide/learn/lecture/22627933#questions/16537692
             - name: AUTH_ADDRESS
-              value: localhost
-        - name: auth-container
-          image: choonsiong/kube-network-auth:1
+              value: 10.97.36.125
