@@ -1,22 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tasks-deployment
+  name: users-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tasks
+      app: users
   template:
     metadata:
       labels:
-        app: tasks
+        app: users
     spec:
       containers:
-        - name: tasks-container
-          image: choonsiong/kube-network-task:latest
+        - name: users-container
+          image: choonsiong/kube-network-user:latest
           env:
             - name: AUTH_ADDRESS
               value: "auth-service.default"
-            - name: TASKS_FOLDER
-              value: "tasks"
