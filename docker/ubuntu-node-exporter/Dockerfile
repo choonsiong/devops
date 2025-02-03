@@ -1,3 +1,8 @@
+# This will setup the prometheus node exporter on an ubuntu container.
+# Note that following image is of amd64 because node exporter does not contains
+# arm64 linux version.
+# https://prometheus.io/download/#node_exporter
+
 FROM ubuntu
 
 RUN apt-get update && \
