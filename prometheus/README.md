@@ -10,8 +10,13 @@ dd87d5a0adcb   ubuntu-node-exporter      "/app/node_exporter-…"   13 minutes a
 $
 ```
 
-To run the prometheus server (version 2) container (make sure prometheus.yml exists inside `config` directory):
+To run the prometheus server (version 2) container (make sure `prometheus.yml` exists inside `config` directory):
 
 `docker container run -d -p 9090:9090 -v "$HOME/prometheus/config:/etc/prometheus" --name prometheus-v2 prom/prometheus:v2.55.1`
+
+Use the docker file of ubuntu-node-exporter to build the ubuntu client image and run the container:
+
+`docker run -d -p 9100:9100 --name prometheus-client-1 ubuntu-node-exporter`
+`docker run -d -p 9101:9100 --name prometheus-client-2 ubuntu-node-exporter`
 
 ![img](image.png)
