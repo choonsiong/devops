@@ -1,4 +1,4 @@
-A prometheus server with two monitoring nodes.
+A prometheus server with two client nodes.
 
 ```
 $
@@ -10,7 +10,7 @@ dd87d5a0adcb   ubuntu-node-exporter      "/app/node_exporter-…"   13 minutes a
 $
 ```
 
-To run the prometheus server (version 2) container (make sure `prometheus.yml` exists inside `config` directory):
+To run the prometheus server (version 2) container (make sure `prometheus.yml` exists inside `config` directory), I am using bind mount here so that we can modify the yaml file easily and restart the container to take effect of latest changes:
 
 ```
 $ docker container run -d -p 9090:9090 -v "$HOME/prometheus/config:/etc/prometheus" --name prometheus-v2 prom/prometheus:v2.55.1
