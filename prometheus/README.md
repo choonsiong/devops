@@ -10,4 +10,8 @@ dd87d5a0adcb   ubuntu-node-exporter      "/app/node_exporter-…"   13 minutes a
 $
 ```
 
+To run the prometheus server (version 2) container:
+
+`docker container run -d -p 9090:9090 -v "$HOME/prometheus/config:/etc/prometheus" --name prometheus-v2 prom/prometheus:v2.55.1`
+
 ![img](image.png)
