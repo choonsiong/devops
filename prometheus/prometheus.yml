@@ -39,3 +39,8 @@ scrape_configs:
     static_configs:
       - targets: ['192.168.0.122:9100']
 
+  - job_name: "prometheus-client-2"
+
+    static_configs:
+      - targets: ['192.168.0.122:9101']
+
