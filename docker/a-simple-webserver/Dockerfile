@@ -5,7 +5,7 @@ LABEL description "A simple web server"
 
 # Set environment variables and timezone
 # (saves interactive queries)
-ENV TIMEZONE="Asia/Tokyo" \
+ENV TZ="Asia/Tokyo" \
     APACHE_RUN_USER=www-data \
     APACHE_RUN_GROUP=www-data \
     APACHE_LOG_DIR=/var/log/apache2
@@ -32,4 +32,4 @@ VOLUME [ "/var/www/html", "/var/log/apache2" ]
 COPY samplesite/ /var/www/html
 
 # Start command
-CMD ["/usr/bin/apache2ctl", "-D", "FOREGROUND"]
+CMD [ "/usr/bin/apache2ctl", "-D", "FOREGROUND" ]
