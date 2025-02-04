@@ -32,4 +32,4 @@ VOLUME [ "/var/www/html", "/var/log/apache2" ]
 COPY samplesite/ /var/www/html
 
 # Start command
-CMD [ "/usr/bin/apache2ctl", "-D", "FOREGROUND" ]
+CMD [ "/usr/sbin/apache2ctl", "-D", "FOREGROUND" ]
