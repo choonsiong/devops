@@ -1,10 +1,22 @@
 name: Push Workflow
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:    
 jobs:
-  first-job:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Print greeting
-        run: echo "Hello World!"
-      - name: Print goodbye
-        run: echo "Done - bye!"
+      - name: Test code
+        run: echo "testing..."      
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build code
+        run: echo "building..."
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy code
+        run: echo "deploying..."
