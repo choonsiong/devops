@@ -9,6 +9,11 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v33
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install dependencies
         run: npm ci
       - name: Lint code
@@ -29,8 +34,7 @@ jobs:
         run: npm run build
       - name: Publish JS filename
         id: publish
-        #run: find dist/assets/*.js -type f -execdir echo 'js-script-file={}' >> $GITHUB_OUTPUT ';'
-        run: find dist/assets/*.js -type f -execdir echo '::set-output name=js-script-file::{}' ';'
+        run: find dist/assets/*.js -type f -execdir echo 'js-script-file={}' >> $GITHUB_OUTPUT ';'
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -46,5 +50,7 @@ jobs:
           name: dist-files
       - name: Output contents
         run: ls
+      - name: Output JS filename
+        run: echo "${{ needs.build.outputs.js-script-file }}"
       - name: Deploy
         run: echo "Deploying..."
