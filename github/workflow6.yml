@@ -1,5 +1,12 @@
 name: Event Demo
-on: issues
+on:
+  push:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - closed
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
