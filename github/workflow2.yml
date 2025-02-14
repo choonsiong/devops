@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Get code from repository
         uses: actions/checkout
-      - name: Install nodejs
+      - name: Install nodejs # by default nodejs is come with this runner, it is just to demo here if we want to use a different node version (https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2004-Readme.md)
         uses: actions/setup-node@v3
         with:
           node-version: 18
