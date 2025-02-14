@@ -1,6 +1,8 @@
 name: Event Demo
 on:
   push:
+    branches:
+      - main
   pull_request:
     types: # activity types: https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#pull_request
       - opened
