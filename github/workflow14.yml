@@ -4,9 +4,14 @@ on:
     branches:
       - main
       - dev
+env: # environment variables
+  MONGODB_DB_NAME: demo-db # available in all jobs
 jobs:
   test:
-    environment: testing
+    env:
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1
+      MONGODB_USERNAME: demo
+      MONGODB_PASSWORD: demo
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
