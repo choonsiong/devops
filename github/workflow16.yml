@@ -8,6 +8,7 @@ env: # environment variables
   MONGODB_DB_NAME: demo-db # available in all jobs
 jobs:
   test:
+    environment: testing # environment setup inside github
     env:
       MONGODB_CLUSTER_ADDRESS: cluster0.15pwqcc.mongodb.nets
       MONGODB_USERNAME: ${{ secrets.MONGO_DB_USERNAME }} # secret in github setting
