@@ -66,11 +66,17 @@ jobs:
           path: dist
   deploy:
     needs: build
-    uses: ./.github/workflows/reusablewf3.yml
+    uses: ./.github/workflows/reusablewf4.yml
     with:
       artifact-name: dist-files
     secrets:
       some-secret: ${{ secrets.some-secret }}
+  print-deploy-result:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deploy output
+        run: echo "${{ needs.deploy.outputs.result }}"
   report:
     needs: [lint, deploy]
     if: failure() # if any above job failed
