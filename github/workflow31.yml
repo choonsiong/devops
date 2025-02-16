@@ -63,6 +63,9 @@ jobs:
         run: ls
       - name: Deploy site
         uses: ./.github/actions/deploy-s3-javascript
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # this is store inside github secret
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           bucket: my-aws-s3-bucket-name
           bucket-region: us-east-2
