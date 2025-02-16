@@ -62,6 +62,7 @@ jobs:
       - name: Output contents
         run: ls
       - name: Deploy site
+        id: deploy
         uses: ./.github/actions/deploy-s3-javascript
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # this is store inside github secret
@@ -70,6 +71,9 @@ jobs:
           bucket: my-aws-s3-bucket-name
           bucket-region: us-east-2
           dist-folder: ./dist
+      - name: Output information
+        run: |
+          echo "Live URL: ${{ steps.deploy.outputs.website-url }}"          
   # information:
   #   runs-on: ubuntu-latest
   #   steps:
