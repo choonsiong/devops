@@ -5,6 +5,9 @@
 
 FROM ubuntu
 
+ENV NODE_EXPORTER_ARCH=linux-arm64
+ENV NODE_EXPORTER_VERSION=1.8.2
+
 RUN apt-get update && \
     apt-get install -y wget && \
     apt-get clean && \
@@ -12,7 +15,14 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-RUN wget https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-amd64.tar.gz && \
-    tar zxf node_exporter-1.8.2.linux-amd64.tar.gz
+# https://github.com/prometheus/node_exporter/releases/download/v1.8.2/node_exporter-1.8.2.linux-arm64.tar.gz
 
-CMD [ "/app/node_exporter-1.8.2.linux-amd64/node_exporter" ]
+RUN wget https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/node_exporter-${NODE_EXPORTER_VERSION}.${NODE_EXPORTER_ARCH}.tar.gz && \
+    tar zxf node_exporter-${NODE_EXPORTER_VERSION}.${NODE_EXPORTER_ARCH}.tar.gz && \
+    cd node_exporter-${NODE_EXPORTER_VERSION}.${NODE_EXPORTER_ARCH} && \
+    mv node_exporter /usr/local/bin/
+
+EXPOSE 9100
+
+#CMD [ "/app/node_exporter-1.8.2.linux-amd64/node_exporter" ]
+CMD [ "/usr/local/bin/node_exporter" ]
