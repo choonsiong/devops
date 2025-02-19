@@ -16,7 +16,7 @@ RUN apt-get update && \
 RUN wget https://github.com/prometheus/alertmanager/releases/download/v${ALERT_MANAGER_VERSION}/alertmanager-${ALERT_MANAGER_VERSION}.${ALERT_MANAGER_ARCH}.tar.gz && \
     tar zxf alertmanager-${ALERT_MANAGER_VERSION}.${ALERT_MANAGER_ARCH}.tar.gz && \
     cd alertmanager-${ALERT_MANAGER_VERSION}.${ALERT_MANAGER_ARCH} && \
-    mv alertmanager /usr/local/bin/
+    mv alertmanager amtool /usr/local/bin/
     #mkdir -p /var/lib/alertmanager/data && \
     #mv * /var/lib/alertmanager/
 
