@@ -1,13 +1,15 @@
-# This will setup the prometheus node exporter on an ubuntu container.
+# This will setup the prometheus node exporter on an redhat container.
 # https://prometheus.io/download/#node_exporter
 
-FROM redhat/ubi9
+FROM ubuntu
 
 ENV NODE_EXPORTER_ARCH=linux-arm64
 ENV NODE_EXPORTER_VERSION=1.8.2
 
-RUN yum update && \
-    yum install -y wget
+RUN apt-get update && \
+    apt-get install -y wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

@@ -1,4 +1,4 @@
-# This will setup the prometheus node exporter on an redhat container.
+# This will setup the prometheus node exporter on an ubuntu container.
 # https://prometheus.io/download/#node_exporter
 
 FROM redhat/ubi9
