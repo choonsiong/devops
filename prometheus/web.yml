@@ -2,6 +2,6 @@ tls_server_config:
   cert_file: prom.crt
   key_file: prom.key
 
-# --web.config.file=web.yml  
+# --web.config.file=web.yml  --config.file=prometheus.yml
 basic_auth_users:
   admin: $2y$10$zCuKBSRktt1Q7KRliIaBlejdN6xu1lnLMa5oDg2sRDHEwZsyXjVU2
