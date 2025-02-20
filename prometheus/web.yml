@@ -1,3 +1,4 @@
+# openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout node_exporter.key -out node_exporter.crt -subj "/C=BE/ST=Antwerp/L=Brasschaat/O=Inuits/CN=localhost" 
 tls_server_config:
   cert_file: prom.crt
   key_file: prom.key
