@@ -47,4 +47,15 @@ scrape_configs:
   - job_name: "aws ec2"
     # Use service discovery
     ec2_sd_configs:
-      - port: 8000
+      - port: 9090
+        region: ap-southeast-2
+        access_key: xxx
+        secret_key: yyy
+        filters:
+          - name: tag:Name
+            values:
+              - dev-.*
+              - prod-.*
+    relabel_configs:
+      - source_labels: [__meta_ec2_tag_Name, __meta_ec2_private_ip]
+        target_label: instance
