@@ -1,6 +1,8 @@
 package org.example;
 
 import io.prometheus.metrics.core.metrics.Counter;
+import io.prometheus.metrics.core.metrics.Gauge;
+import io.prometheus.metrics.core.metrics.Summary;
 import io.prometheus.metrics.exporter.httpserver.HTTPServer;
 import io.prometheus.metrics.instrumentation.jvm.JvmMetrics;
 
@@ -14,6 +16,11 @@ public class App {
         counter.labelValues("ok").inc();
         counter.labelValues("ok").inc();
         counter.labelValues("error").inc();
+
+        Gauge gauge = Gauge.builder().name("my_gauge").help("example gauge").register();
+        gauge.set(100);
+        gauge.inc(10);
+        gauge.inc(10);
 
         HTTPServer server = HTTPServer.builder().port(9400).buildAndStart();
 
