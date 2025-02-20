@@ -16,6 +16,4 @@ RUN mkdir -p /app/java-client/src/main/java/org/example && \
     cd /app/java-client && \
     mvn clean package
 
-EXPOSE 9400
-
 CMD [ "java", "-jar", "/app/java-client/target/java-client-1.0-SNAPSHOT.jar" ]

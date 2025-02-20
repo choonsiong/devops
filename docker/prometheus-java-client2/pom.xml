@@ -16,7 +16,31 @@
     </properties>
 
     <dependencies>
+    <!-- The client -->
         <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>0.12.0</version>
+        </dependency>
+        <!-- Hotspot JVM metrics-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_hotspot</artifactId>
+            <version>0.12.0</version>
+        </dependency>
+        <!-- Exposition HTTPServer-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_httpserver</artifactId>
+            <version>0.12.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_pushgateway</artifactId>
+            <version>0.12.0</version>
+        </dependency>
+        <!-- <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>prometheus-metrics-core</artifactId>
             <version>1.3.6</version>
@@ -30,7 +54,7 @@
             <groupId>io.prometheus</groupId>
             <artifactId>prometheus-metrics-exporter-httpserver</artifactId>
             <version>1.3.6</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
