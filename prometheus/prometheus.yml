@@ -38,7 +38,7 @@ scrape_configs:
     scheme: https
     tls_config:
       ca_file: /etc/prometheus/prom.crt
-      server_name: 'localhost'
+      server_name: 'prometheus-client-1'
     basic_auth:
       username: admin
       password: password
@@ -49,7 +49,7 @@ scrape_configs:
     scheme: https
     tls_config:
       ca_file: /etc/prometheus/prom.crt
-      server_name: 'localhost'
+      server_name: 'prometheus-client-2'
     basic_auth:
       username: admin
       password: password
