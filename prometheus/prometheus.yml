@@ -59,3 +59,6 @@ scrape_configs:
     relabel_configs:
       - source_labels: [__meta_ec2_tag_Name, __meta_ec2_private_ip]
         target_label: instance
+      - source_labels: [__meta_ec2_tag_Name]
+        regex: dev-test-.*
+        action: drop
