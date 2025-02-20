@@ -20,9 +20,7 @@ public class App {
         counter.labelValues("ok").inc();
         counter.labelValues("error").inc();
 
-        HTTPServer server = HTTPServer.builder()
-                .port(9400)
-                .buildAndStart();
+        HTTPServer server = HTTPServer.builder().port(9400).buildAndStart();
 
         System.out.println("HTTPServer listening on port http://localhost:" + server.getPort() + "/metrics");
 
