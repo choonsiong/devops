@@ -1,0 +1,23 @@
+name: release
+on:
+  push:
+    tags:
+      - '*'
+env:
+  version: 0.0.1
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build
+        run: |
+          tar cxf code-${{ env.version }}.tar.gz *
+      - name: release
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ env.version }}
+          name: release ${{ env.version }}
+          files: code-${{ env.version }}.tar.gz
