@@ -16,10 +16,10 @@ jobs:
           ls -l
           tar -czf code-${{ env.version }}.tar.gz *
           ls -l
-      - name: release
-        uses: softprops/action-gh-release@v2
-        with:
-          token: ${{ secrets.DEVOPS_TOKEN }}
-          tag_name: ${{ env.version }}
-          name: release ${{ env.version }}
-          files: code-${{ env.version }}.tar.gz
+      # - name: release
+      #   uses: softprops/action-gh-release@v2
+      #   with:
+      #     token: ${{ secrets.DEVOPS_TOKEN }}
+      #     tag_name: ${{ env.version }}
+      #     name: release ${{ env.version }}
+      #     files: code-${{ env.version }}.tar.gz
