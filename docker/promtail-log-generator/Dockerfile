@@ -13,7 +13,7 @@ RUN apt-get update && \
     ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && \
     echo $TIMEZONE > /etc/timezone
 
-COPY loggen.py .
+COPY app.py .
 
 COPY promtail_config.yml .
     
