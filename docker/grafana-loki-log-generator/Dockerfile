@@ -11,6 +11,9 @@ RUN apt-get update && \
 
 WORKDIR /app
 
+# The original intention is to run the python program with promtail setup so
+# that the log generated inside the container can be use on grafana on the same
+# network, but this is not complete yet
 COPY loggen.py .
 
 CMD [ "/bin/bash" ]
