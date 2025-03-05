@@ -1,5 +1,8 @@
 FROM python:3
 
+# Checkout the docker hub for ready made image:
+# https://hub.docker.com/r/choonsiong/promtail-log-generator
+
 ENV TIMEZONE="Asia/Tokyo"
 ENV PROMTAIL_ARCH=linux-arm64
 ENV PROMTAIL_VERSION=3.4.2
