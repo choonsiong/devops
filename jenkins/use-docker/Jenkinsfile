@@ -7,12 +7,15 @@ pipeline {
                 sh 'echo without docker'
             }
         }
+        
+        // Make sure docker pipeline plug-in is installed!
         stage('with docker') {
             agent {
                 docker {
                     image 'node:18-alpine'
                 }
             }
+        
             steps {
                 sh 'echo with docker'
                 sh 'npm --version'
