@@ -17,7 +17,7 @@ pipeline {
 
             steps {
                 sh '''
-                    echo "Building node app..."            
+                    echo "Building node app..."
                     node --version
                     npm --version
                     ls -la
@@ -45,11 +45,34 @@ pipeline {
                 '''
             }
         }
+
+        stage('End to End Test') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                    //args '-u root:root'
+                }
+            }
+
+            steps {
+                sh '''
+                    echo "Testing end-to-end node app..."
+                    npm install serve
+                    echo "Serving from build..."
+                    node_modules/.bin/serve -s build &
+                    echo "Wait for few seconds..."
+                    sleep 10
+                    echo "Starting playwright test..."
+                    npx playwright test --reporter=html
+                '''
+            }
+        }
     }
 
     post {
         always {
-            junit 'test-results/junit.xml'
+            junit 'jest-test-results/junit.xml'
         }
     }
 }
