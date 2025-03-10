@@ -1,3 +1,7 @@
+# 1. Plan
+# 2. Apply
+# 3. Destroy
+
 terraform {
     required_providers {
       aws = {
@@ -35,7 +39,7 @@ resource "aws_internet_gateway" "terraform_igw" {
 
 resource "aws_route_table" "terraform_public_rtb" {
     vpc_id = aws_vpc.terraform_demo_vpc.id
-    
+
     route {
         cidr_block = "0.0.0.0/0"
         gateway_id = aws_internet_gateway.terraform_igw.id
