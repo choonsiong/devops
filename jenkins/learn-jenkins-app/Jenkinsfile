@@ -86,14 +86,14 @@ pipeline {
                             always {
                                 // Need to run below script under Script Console in order to see the HTML page
                                 // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "sandbox allow-scripts;")
-                                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                             }
                         }
                 }
             }
         }
 
-        stage('Deploy Application') {
+        stage('Deploy Staging') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -103,15 +103,63 @@ pipeline {
 
             steps {
                 sh '''
+                    echo "Deploying to staging"
+                    npm install netlify-cli                    
+                    node_modules/.bin/netlify --version
+                    node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --dir=build
+                    echo "SITE ID: $NETLIFY_SITE_ID"
+                '''
+            }
+        }
+
+        stage('Deploy Production') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+
+            steps {
+                sh '''
+                    echo "Deploying to production"
                     npm install netlify-cli                    
                     node_modules/.bin/netlify --version
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --prod
                     echo "SITE ID: $NETLIFY_SITE_ID"
-                    echo "Test git polling"
                 '''
             }
         }
+
+        stage('Production End to End Test') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                }
+            }
+
+            environment {
+                CI_ENVIRONMENT_URL = 'https://steady-biscotti-29ed25.netlify.app'
+            }            
+
+            steps {
+                sh '''
+                    echo "Starting playwright test..."
+                    npx playwright test --reporter=html
+                '''
+            }
+
+            post {
+                    always {
+                        // Need to run below script under Script Console in order to see the HTML page
+                        // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "sandbox allow-scripts;")
+                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Production HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                    }
+                }
+            }
     }
 
 //     post {
