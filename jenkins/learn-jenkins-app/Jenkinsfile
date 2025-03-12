@@ -157,26 +157,26 @@ pipeline {
             }
         }
 
-        stage('Deploy Production') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
+        // stage('Deploy Production') {
+        //     agent {
+        //         docker {
+        //             image 'node:18-alpine'
+        //             reuseNode true
+        //         }
+        //     }
 
-            steps {
-                sh '''
-                    echo "Deploying to production"
-                    npm install netlify-cli                    
-                    node_modules/.bin/netlify --version
-                    node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build --prod
-                '''
-            }
-        }
+        //     steps {
+        //         sh '''
+        //             echo "Deploying to production"
+        //             npm install netlify-cli                    
+        //             node_modules/.bin/netlify --version
+        //             node_modules/.bin/netlify status
+        //             node_modules/.bin/netlify deploy --dir=build --prod
+        //         '''
+        //     }
+        // }
 
-        stage('Production End to End Test') {
+        stage('Deploy Production and E2E Test') {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
@@ -185,33 +185,39 @@ pipeline {
             }
 
             environment {
-                //CI_ENVIRONMENT_URL = 'https://steady-biscotti-29ed25.netlify.app'
                 CI_ENVIRONMENT_URL = credentials('NETLIFY_LEARN_JENKINS_APP_CI_ENVIRONMENT_URL')
             }            
 
             steps {
                 sh '''
-                    echo "Starting playwright test..."
+                    echo "======> Checking node version"
+                    
+                    node --version
+
+                    echo "======> Deploying to production"
+                    
+                    npm install netlify-cli
+
+                    node_modules/.bin/netlify --version
+
+                    node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --dir=build --prod
+
+                    echo "======> Sleeping to wait netlify"
+                    
+                    sleep 10
+
+                    echo "======> Starting playwright test"
+
                     npx playwright test --reporter=html
                 '''
             }
 
             post {
                     always {
-                        // Need to run below script under Script Console in order to see the HTML page
-                        // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "sandbox allow-scripts;")
                         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Production HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                     }
             }
         }
     }
-
-//     post {
-//         always {
-//             junit 'jest-test-results/junit.xml'
-//             // Need to run below script under Script Console in order to see the HTML page
-//             // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "sandbox allow-scripts;")
-//             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-//         }
-//     }
 }
