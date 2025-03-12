@@ -185,7 +185,6 @@ pipeline {
             }
 
             environment {
-                //CI_ENVIRONMENT_URL = 'https://steady-biscotti-29ed25.netlify.app'
                 CI_ENVIRONMENT_URL = credentials('NETLIFY_LEARN_JENKINS_APP_CI_ENVIRONMENT_URL')
             }            
 
