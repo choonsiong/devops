@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'building...'
+            }
+        }
+        
+        stage('Approval') {
+            steps {
+                timeout(time: 15, unit: 'MINUTES') {
+                    input message: 'Ready to deploy?', ok: 'Yes'
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                echo 'deploying...'
+            }
+        }
+    }
+}
