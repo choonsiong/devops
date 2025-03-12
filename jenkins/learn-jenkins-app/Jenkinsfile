@@ -104,12 +104,48 @@ pipeline {
             steps {
                 sh '''
                     echo "Deploying to staging"
-                    npm install netlify-cli                    
+                    
+                    npm install netlify-cli node-jq                
+                    
                     node_modules/.bin/netlify --version
                     node_modules/.bin/netlify status
-                    node_modules/.bin/netlify deploy --dir=build
-                    echo "SITE ID: $NETLIFY_SITE_ID"
+                    
+                    node_modules/.bin/netlify deploy --dir=build --json > deploy-staging-output.json
+                    
+                    #node_modules/.bin/node-jq -r '.deploy_url' deploy-staging-output.json
                 '''
+
+                script {
+                   env.STAGING_URL = sh(script: "node_modules/.bin/node-jq -r '.deploy_url' deploy-staging-output.json", returnStdout: true)
+                }
+            }
+        }
+
+        stage('Staging End to End Test') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                }
+            }
+
+            environment {                
+                CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
+            }            
+
+            steps {
+                sh '''
+                    echo "Starting playwright test..."
+                    npx playwright test --reporter=html
+                '''
+            }
+
+            post {
+                    always {
+                        // Need to run below script under Script Console in order to see the HTML page
+                        // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "sandbox allow-scripts;")
+                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Staging HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                    }
             }
         }
 
@@ -136,7 +172,6 @@ pipeline {
                     node_modules/.bin/netlify --version
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --prod
-                    echo "SITE ID: $NETLIFY_SITE_ID"
                 '''
             }
         }
@@ -150,6 +185,7 @@ pipeline {
             }
 
             environment {
+                //CI_ENVIRONMENT_URL = 'https://steady-biscotti-29ed25.netlify.app'
                 CI_ENVIRONMENT_URL = credentials('NETLIFY_LEARN_JENKINS_APP_CI_ENVIRONMENT_URL')
             }            
 
@@ -166,8 +202,8 @@ pipeline {
                         // System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "sandbox allow-scripts;")
                         publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Production HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                     }
-                }
             }
+        }
     }
 
 //     post {

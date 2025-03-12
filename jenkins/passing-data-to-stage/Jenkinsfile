@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Deploy') {
+            steps {
+                echo 'deploying...'
+                script {
+                    env.MY_VAR = 'HELLO WORLD'
+                    env.TODAY = sh(script: 'date', returnStdout: true)
+                }
+            }
+        }
+        
+        stage('End to End') {
+            steps {
+                echo 'end to end...'
+                echo "MY_VAR: ${env.MY_VAR}"
+                echo "TODAY: ${env.TODAY}"
+            }
+        }
+    }
+}
