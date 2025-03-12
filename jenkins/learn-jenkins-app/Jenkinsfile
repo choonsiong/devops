@@ -113,6 +113,14 @@ pipeline {
             }
         }
 
+        stage('Approval') {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    input message: 'Ready to deploy?', ok: 'Yes'
+                }
+            }
+        }
+
         stage('Deploy Production') {
             agent {
                 docker {
@@ -142,7 +150,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://steady-biscotti-29ed25.netlify.app'
+                CI_ENVIRONMENT_URL = credentials('NETLIFY_LEARN_JENKINS_APP_CI_ENVIRONMENT_URL')
             }            
 
             steps {
