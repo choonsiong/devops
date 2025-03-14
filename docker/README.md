@@ -18,6 +18,7 @@
         - [Networking overview](https://docs.docker.com/engine/network/)
     
 - [dockerhub](https://hub.docker.com/)
+    - [amazon/aws-cli](https://hub.docker.com/r/amazon/aws-cli)
     - [centos](https://hub.docker.com/_/centos)
     - [microsoft/dotnet](https://hub.docker.com/r/microsoft/dotnet)
     - [redhat/ubi9](https://hub.docker.com/r/redhat/ubi9)
