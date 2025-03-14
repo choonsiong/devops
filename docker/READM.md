@@ -15,4 +15,11 @@
 
 - - -
 
+- [Amazon Elastic Container Registry](https://aws.amazon.com/de/ecr/)
+- [Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/)
+- [Microsoft Artifact Registry](https://mcr.microsoft.com/en-us/)
+- [Red Hat Container Images](https://catalog.redhat.com/software/containers/explore)
+
+- - -
+
 - [OCI](https://opencontainers.org/)
