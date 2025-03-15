@@ -9,3 +9,4 @@
 - - -
 
 - [Fargate Pricing Calculator](https://calculator.aws/#/createCalculator/Fargate)
+- [Troubleshooting Amazon ECS task definition invalid CPU or memory errors](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html)
