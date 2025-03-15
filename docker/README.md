@@ -21,6 +21,7 @@
     - [amazon/aws-cli](https://hub.docker.com/r/amazon/aws-cli)
     - [centos](https://hub.docker.com/_/centos)
     - [microsoft/dotnet](https://hub.docker.com/r/microsoft/dotnet)
+    - [nginx](https://hub.docker.com/_/nginx)
     - [redhat/ubi9](https://hub.docker.com/r/redhat/ubi9)
 - [github.com/docker](https://github.com/docker)
     - [docker/buildx](https://github.com/docker/buildx/tree/master)
