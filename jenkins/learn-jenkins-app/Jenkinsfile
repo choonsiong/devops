@@ -2,50 +2,31 @@ pipeline {
     agent any
 
     environment {
+        // https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#using-environment-variables
+
+        APP_NAME = 'choonsiong/learn-jenkins-app'
+
+        REACT_APP_VERSION = "1.0.$BUILD_ID"
+
+        AWS_DEFAULT_REGION = credentials('AWS_REGION')
+        AWS_ECS_CLUSTER_NAME = 'LearnJenkinsAppCluster_Prod'
+        AWS_ECS_SERVICE_PROD_NAME = 'Learn_Jenkins_App_Service_Prod'
+        AWS_ECS_TASK_DEFINITION_PROD_NAME = 'Learn_Jenkins_App_TaskDefinition_Prod'
+        AWS_ECR = credentials('AWS_ECR')
+
         NETLIFY_SITE_ID = credentials('NETLIFY_LEARN_JENKINS_APP_SITE_ID')
         NETLIFY_AUTH_TOKEN = credentials('NETLIFY_TOKEN')
-        // https://www.jenkins.io/doc/book/pipeline/jenkinsfile/#using-environment-variables
-        REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
     stages {
-        // Line
-        /*
-        Line 1
-        Line 2
-        */
-//         stage('Docker') {
-//             steps {
-//                 sh 'docker build -t choonsiong/my-playwright .'
-//             }
-//         }
+        // Run in a different pipeline now
+        /*stage('Build playwright docker image') {
+            steps {
+                sh 'docker build -f ci/Dockerfile-playwright -t choonsiong/my-playwright .'
+            }
+        }*/
 
-//         stage('AWS') {
-//             agent {
-//                 docker {
-//                     image 'amazon/aws-cli'
-//                     args "--entrypoint=''"
-//                 }
-//             }
-//
-//             environment {
-//                 AWS_S3_BUCKET_NAME = 'lcs-learn-jenkins-app'
-//             }
-//
-//             steps {
-//                 withCredentials([usernamePassword(credentialsId: 'aws-s3-access', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-//                     sh '''
-//                         #ls -l
-//                         aws --version
-//                         #aws s3 ls
-//                         #aws s3 cp README.md s3://${AWS_S3_BUCKET_NAME}/index.html
-//                         aws s3 sync build s3://${AWS_S3_BUCKET_NAME}
-//                     '''
-//                 }
-//             }
-//         }
-
-        stage('Build') {
+        stage('Build application') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -55,44 +36,35 @@ pipeline {
 
             steps {
                 sh '''
-                    echo "Building node app..."
-                    node --version
-                    npm --version
-                    ls -la
+                    #node --version
+                    #npm --version
                     npm ci
                     npm run build
-                    ls -la
                 '''
             }
         }
 
-        stage('AWS') {
+        stage('Build application docker image') {
             agent {
                 docker {
-                    image 'amazon/aws-cli'
-                    args "--entrypoint=''"
+                    image 'choonsiong/my-aws-cli'
+                    args "-u root:root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
                     reuseNode true
                 }
-            }
-
-            environment {
-                AWS_S3_BUCKET_NAME = 'lcs-learn-jenkins-app'
             }
 
             steps {
                 withCredentials([usernamePassword(credentialsId: 'aws-s3-access', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
-                        ls -l
-                        aws --version
-                        #aws s3 ls
-                        #aws s3 cp README.md s3://${AWS_S3_BUCKET_NAME}/index.html
-                        aws s3 sync build s3://${AWS_S3_BUCKET_NAME}
+                        docker build -t ${AWS_ECR}/${APP_NAME}:${REACT_APP_VERSION} .
+                        aws ecr get-login-password | docker login --username AWS --password-stdin ${AWS_ECR}
+                        docker push ${AWS_ECR}/${APP_NAME}:${REACT_APP_VERSION}
                     '''
                 }
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Local Tests') {
             parallel {
                 stage('Unit Test') {
                     agent {
@@ -121,7 +93,6 @@ pipeline {
                 stage('End to End Test') {
                     agent {
                         docker {
-                            //image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                             image 'choonsiong/my-playwright'
                             reuseNode true
                             //args '-u root:root'
@@ -130,21 +101,14 @@ pipeline {
 
                     steps {
                         sh '''
-                            echo "======> Testing end-to-end node app..."
-
-                            echo "======> Serving from build..."
-
+                            echo "Testing end-to-end node app..."
+                            echo "Serving from build..."
                             serve -s build &
-
-                            echo "======> Wait for few seconds..."
-
-                            sleep 3
-
-                            echo "======> Starting playwright test..."
-
+                            echo "Wait for few seconds..."
+                            sleep 5
+                            echo "Starting playwright test..."
                             npx playwright test --reporter=html
-
-                            sleep 2
+                            sleep 5
                         '''
                     }
 
@@ -159,10 +123,78 @@ pipeline {
             }
         }
 
+        stage('AWS Approval') {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    input message: 'Ready to deploy to AWS?', ok: 'Yes'
+                }
+            }
+        }
+
+        stage('Deploy to AWS ECS and S3') {
+            parallel {
+                stage('Deploy to AWS ECS') {
+                    agent {
+                        docker {
+                            image 'choonsiong/my-aws-cli'
+                            args "--entrypoint=''"
+                            reuseNode true
+                        }
+                    }
+
+                    steps {
+                        withCredentials([usernamePassword(credentialsId: 'aws-s3-access', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                            sh '''
+                                aws --version
+                                sed -i "s/#APP_VERSION#/${REACT_APP_VERSION}/g" aws/task-definition-prod.json
+                                #cat aws/task-definition-prod.json
+                                LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq '.taskDefinition.revision')
+                                echo "Latest task definition revision: ${LATEST_TD_REVISION}"
+                                aws ecs update-service --cluster ${AWS_ECS_CLUSTER_NAME} --service ${AWS_ECS_SERVICE_PROD_NAME} --task-definition ${AWS_ECS_TASK_DEFINITION_PROD_NAME}:${LATEST_TD_REVISION}
+                                #aws ecs wait services-stable --cluster ${AWS_ECS_CLUSTER_NAME} --services ${AWS_ECS_SERVICE_PROD_NAME}
+                            '''
+                        }
+                    }
+                }
+
+                stage('Deploy to AWS S3') {
+                    agent {
+                        docker {
+                            image 'choonsiong/my-aws-cli'
+                            args "--entrypoint=''"
+                            reuseNode true
+                        }
+                    }
+
+                    environment {
+                        AWS_S3_BUCKET_NAME = 'lcs-learn-jenkins-app'
+                    }
+
+                    steps {
+                        withCredentials([usernamePassword(credentialsId: 'aws-s3-access', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                            sh '''
+                                aws --version
+                                #aws s3 ls
+                                #aws s3 cp README.md s3://${AWS_S3_BUCKET_NAME}/index.html
+                                aws s3 sync build s3://${AWS_S3_BUCKET_NAME}
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Netlify Approval') {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    input message: 'Ready to deploy to Netlify?', ok: 'Yes'
+                }
+            }
+        }
+
         stage('Deploy Staging and E2E Test') {
             agent {
                 docker {
-                    //image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     image 'choonsiong/my-playwright'
                     reuseNode true
                 }
@@ -174,22 +206,14 @@ pipeline {
 
             steps {
                 sh '''
-                    echo "======> Checking node version"
-
+                    echo "Checking node version"
                     node --version
-
-                    echo "======> Deploying to staging"
-
+                    echo "Deploying to staging"
                     netlify --version
-
                     netlify status
-
                     netlify deploy --dir=build --json > deploy-staging-output.json
-
                     CI_ENVIRONMENT_URL=$(node-jq -r '.deploy_url' deploy-staging-output.json)
-
-                    echo "======> Starting playwright test"
-
+                    echo "Starting playwright test"
                     npx playwright test --reporter=html
                 '''
             }
@@ -201,18 +225,9 @@ pipeline {
             }
         }
 
-//         stage('Approval') {
-//             steps {
-//                 timeout(time: 1, unit: 'MINUTES') {
-//                     input message: 'Ready to deploy?', ok: 'Yes'
-//                 }
-//             }
-//         }
-
         stage('Deploy Production and E2E Test') {
             agent {
                 docker {
-                    //image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     image 'choonsiong/my-playwright'
                     reuseNode true
                 }
@@ -224,24 +239,15 @@ pipeline {
 
             steps {
                 sh '''
-                    echo "======> Checking node version"
-
+                    echo "Checking node version"
                     node --version
-
-                    echo "======> Deploying to production"
-
+                    echo "Deploying to production"
                     netlify --version
-
                     netlify status
-
                     netlify deploy --dir=build --prod
-
-                    echo "======> Sleeping to wait netlify"
-
-                    sleep 2
-
-                    echo "======> Starting playwright test"
-
+                    echo "Sleeping to wait netlify"
+                    sleep 5
+                    echo "Starting playwright test"
                     npx playwright test --reporter=html
                 '''
             }

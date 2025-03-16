@@ -9,7 +9,7 @@
       - [ecs](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/index.html)
         - [register-task-definition](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/register-task-definition.html)
         - [update-service](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/update-service.html)
-        - [wait](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/wait/index.html)
+        - [wait](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/wait/index.htmldoc)
       - [s3](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html)
 
 - - -
