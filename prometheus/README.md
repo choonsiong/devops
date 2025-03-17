@@ -1,3 +1,16 @@
+# Resources
+
+- [Prometheus](https://prometheus.io/)
+  - [Downloads](https://prometheus.io/download/)
+
+- - -
+
+- [Awesome Prometheus Alerts](https://samber.github.io/awesome-prometheus-alerts/rules.html)
+- [prometheus-community/windows_exporter](https://github.com/prometheus-community/windows_exporter)
+  - [WMI](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page)
+
+# Setup
+
 A prometheus server with two client nodes.
 
 ```
