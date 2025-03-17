@@ -6,5 +6,6 @@ This repository is intended solely for educational purposes and is not designed 
 
 - [AWS README](https://github.com/choonsiong/devops/blob/main/aws/README.md)
 - [Docker README](https://github.com/choonsiong/devops/blob/main/docker/README.md)
+- [Grafana README](https://github.com/choonsiong/devops/blob/main/grafana/README.md)
 - [Jenkins README](https://github.com/choonsiong/devops/blob/main/jenkins/README.md)
 - [Prometheus README](https://github.com/choonsiong/devops/blob/main/prometheus/README.md)
