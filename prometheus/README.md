@@ -4,6 +4,7 @@
   - [Downloads](https://prometheus.io/download/)
 - [Awesome Prometheus Alerts](https://samber.github.io/awesome-prometheus-alerts/rules.html)
 - [aussiearef/Prometheus](https://github.com/aussiearef/Prometheus)
+- [aussiearef/ShoeHubV2](https://github.com/aussiearef/ShoeHubV2)
 - [prometheus-community/windows_exporter](https://github.com/prometheus-community/windows_exporter)
   - [WMI](https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmi-start-page)
 - [Installing prometheus pushgateway on Ubuntu 22.04 LTS](https://www.devopstricks.in/installing-prometheus-pushgateway-on-ubuntu-22-04-lts/)
