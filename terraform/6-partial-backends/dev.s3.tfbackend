@@ -1,0 +1,3 @@
+bucket = "lcs-terraform-backend-demo"
+key    = "terraform/dev/state.tfstate"
+region = "ap-southeast-1"

@@ -13,11 +13,7 @@ terraform {
     }
   }
 
-  // Setup a remote backend in AWS S3
   backend "s3" {
-    bucket = "lcs-terraform-backend-demo"
-    key    = "state.tfstate"
-    region = "ap-southeast-1" // this is bucket region, can be different from the region in provider block
   }
 }
 
