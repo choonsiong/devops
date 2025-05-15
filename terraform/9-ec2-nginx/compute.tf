@@ -14,7 +14,7 @@ resource "aws_instance" "web" {
   lifecycle {
     # This will create the new instance first then only destroy the old instance
     create_before_destroy = true
-    ignore_changes = [tags]
+    ignore_changes = [tags] # ignore tag changes make manually (e.g., on AWS website directly)
   }
 }
 
