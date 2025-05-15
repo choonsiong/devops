@@ -1,6 +1,7 @@
 resource "aws_instance" "web" {
   # https://cloud-images.ubuntu.com/locator/ec2/
   ami                         = "ami-0892da582b5039419"
+  #ami                         = "ami-03fbeeb6982ed9f9f" # Bitnami nginx
   associate_public_ip_address = true
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.public.id
@@ -9,6 +10,12 @@ resource "aws_instance" "web" {
   tags = merge(local.common_tags, {
     Name = "9-ec2-nginx-ec2"
   })
+
+  lifecycle {
+    # This will create the new instance first then only destroy the old instance
+    create_before_destroy = true
+    ignore_changes = [tags]
+  }
 }
 
 resource "aws_security_group" "public_http_traffic" {
