@@ -11,6 +11,7 @@
         - [update-service](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/update-service.html)
         - [wait](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ecs/wait/index.htmldoc)
       - [s3](https://awscli.amazonaws.com/v2/documentation/api/latest/reference/s3/index.html)
+- [Amazon EC2 AMI Locator](https://cloud-images.ubuntu.com/locator/ec2/)
 
 - - -
 

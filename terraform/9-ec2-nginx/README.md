@@ -6,3 +6,4 @@ Steps for implementation:
 4. Deploy an EC2 instance inside of the created subnet
 5. Associate a public IP and a security group that allows public ingress
 6. Change the EC2 instance to use a publicly available Nginx AMI
+7. Destroy everything
