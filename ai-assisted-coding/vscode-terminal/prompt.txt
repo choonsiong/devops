@@ -1,0 +1,1 @@
+@terminal How can I find files that haven't changed for more than six months?
