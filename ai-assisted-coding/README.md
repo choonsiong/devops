@@ -7,6 +7,7 @@
 - [Hugging Face](https://huggingface.co/)
     - [Datasets](https://huggingface.co/datasets)
         - [RedPajama-Data-1T](https://huggingface.co/datasets/togethercomputer/RedPajama-Data-1T)
+- [badlogic/genai-workshop](https://github.com/badlogic/genai-workshop)
 
 # Reads
 
