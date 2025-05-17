@@ -1,0 +1,3 @@
+Explain the bash script with comments added.
+
+Can you provide a PowerShell equivalent to the markdown2pdf.sh?

@@ -1,0 +1,2 @@
+I need a python script to generate random passwords with a length of n characters. Can you help?
+

@@ -1,0 +1,1 @@
+PHP/REST: How can I extract a bearer token from a GET request?

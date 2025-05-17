@@ -1,0 +1,15 @@
+MySQL: I have a table to store VAT rates for different countries. This is the table definition:
+
+CREATE TABLE vat (
+    id INT NOT NULL AUTO_INCREMENT,
+    country CHAR(2) NOT NULL,
+    rate DOUBLE NOT NULL,
+    validFrom DATE NOT NULL,
+    PRIMARY KEY (id)
+)
+
+I want to get the VAT rate for a country (i.e., 'de') at a given time ('2024-04-15'). What should the query look like?
+
+
+
+Would this also work with Microsoft SQL server?

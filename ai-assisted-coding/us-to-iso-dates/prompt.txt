@@ -1,0 +1,5 @@
+I want to replace all US dates by ISO dates in a string. Can you help?
+
+Compare the two functions in app.py and explain which function is better and why?
+
+Could you please add another function similar to us_to_iso_dates but in camelCase names?
