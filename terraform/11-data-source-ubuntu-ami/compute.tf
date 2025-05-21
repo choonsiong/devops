@@ -1,3 +1,5 @@
+# Example of using data source to get the latest Ubuntu AMI from a remote API
+
 data "aws_ami" "ubuntu" {
   #provider    = aws.ap-southeast-2
   most_recent = true
@@ -34,11 +36,9 @@ data "aws_ami" "ubuntu2" {
   }
 }
 
-
 output "ubuntu-ami-test" {
   value = data.aws_ami.ubuntu.id
 }
-
 
 output "ubuntu-ami-test-2" {
   value = data.aws_ami.ubuntu2.id
@@ -46,9 +46,9 @@ output "ubuntu-ami-test-2" {
 
 resource "aws_instance" "web" {
   # https://cloud-images.ubuntu.com/locator/ec2/
-  #ami = "ami-0892da582b5039419"
-  #ami                         = "ami-03fbeeb6982ed9f9f" # Bitnami nginx
-  ami                         = data.aws_ami.ubuntu.id
+  #ami = "ami-0892da582b5039419" # Manually specify the AMI ID
+  #ami = "ami-03fbeeb6982ed9f9f" # Bitnami nginx
+  ami                         = data.aws_ami.ubuntu.id # Use the latest AMI from the data source
   associate_public_ip_address = true
   instance_type               = "t2.micro"
 }
