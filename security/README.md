@@ -1,5 +1,6 @@
 # Resources
 
+- [ISO 7498](https://www.ecma-international.org/wp-content/uploads/s020269e.pdf)
 - [Kali Linux](https://www.kali.org/)
     - [Download](https://www.kali.org/get-kali/#kali-platforms)
     - [Documentation](https://www.kali.org/docs/)
