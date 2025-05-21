@@ -16,7 +16,9 @@ data "aws_ami" "ubuntu" {
 
 data "aws_caller_identity" "current" {}
 
-data "aws_region" "current" {}
+data "aws_region" "current" {
+  #provider = aws.ap-southeast-2
+}
 
 output "ubuntu-ami-test" {
   value = data.aws_ami.ubuntu.id
