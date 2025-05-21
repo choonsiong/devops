@@ -21,6 +21,10 @@ data "aws_vpc" "prod_vpc" {
   }
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {
@@ -29,6 +33,10 @@ data "aws_region" "current" {
 
 output "prod_vpc_id" {
   value = data.aws_vpc.prod_vpc.id
+}
+
+output "aws_availability_zones" {
+  value = data.aws_availability_zones.available
 }
 
 output "ubuntu-ami-test" {
