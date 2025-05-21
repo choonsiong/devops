@@ -12,4 +12,5 @@
 
 - [Linux Security](https://linuxsecurity.com/)
 - [State of Security](https://stateofsecurity.com/)
+- [TechRepublic | Security](https://www.techrepublic.com/topic/security/)
 - [welivesecurity](https://www.welivesecurity.com/en/)
