@@ -14,3 +14,9 @@
 - [State of Security](https://stateofsecurity.com/)
 - [TechRepublic | Security](https://www.techrepublic.com/topic/security/)
 - [welivesecurity](https://www.welivesecurity.com/en/)
+
+- - -
+
+- [Omnipeek](https://www.liveaction.com/products/omnipeek/)
+- [TCPDUMP](https://www.tcpdump.org/)
+- [Wireshark](https://www.wireshark.org/)
