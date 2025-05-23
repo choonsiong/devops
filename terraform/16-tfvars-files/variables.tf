@@ -6,7 +6,6 @@ variable "aws_region" {
 
 variable "ec2_instance_type" {
   type        = string
-  default     = "t2.micro"
   description = "The type of the EC2 instance."
 
   validation {
@@ -24,7 +23,7 @@ variable "ec2_volume_config" {
   description = "The size and type of the root block volume attached to the instance."
 
   default = {
-    size = 10
+    size = 100
     type = "gp3"
   }
 }
