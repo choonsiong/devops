@@ -16,12 +16,26 @@ variable "ec2_instance_type" {
   }
 }
 
-variable "ec2_volume_type" {
-  type        = string
-  description = "The volume type between gp2 and gp3."
-}
+#variable "ec2_volume_type" {
+#  type        = string
+#  description = "The volume type between gp2 and gp3."
+#}
+#
+#variable "ec2_volume_size" {
+#  type        = number
+#  description = "The size in GB of the root block volume attached to the instance."
+#}
 
-variable "ec2_volume_size" {
-  type        = number
-  description = "The size in GB of the root block volume attached to the instance."
+variable "ec2_volume_config" {
+  type = object({
+    size = number
+    type = string
+  })
+
+  description = "The size and type of the root block volume attached to the instance."
+
+  default = {
+    size = 10
+    type = "gp3"
+  }
 }
